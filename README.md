@@ -47,3 +47,7 @@ launches.
   stale, press the DPI button once.
 - Only the Keychron Link dongle with this report layout is supported; other
   Keychron receivers (e.g. the 8K Ultra-Link) use different protocols.
+
+## License
+
+[MIT](LICENSE)
