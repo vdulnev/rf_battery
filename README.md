@@ -5,6 +5,32 @@ mouse connected through a **Keychron Link** 2.4 GHz dongle.
 
 Tested with a Keychron M6 (`3434:d03f`) on a Keychron Link receiver (`3434:d030`).
 
+## Install
+
+Download `RFBattery.zip` from the
+[latest release](https://github.com/vdulnev/rf_battery/releases/latest),
+unzip it and move `RFBattery.app` to `/Applications`. It is a universal binary
+(Apple Silicon and Intel).
+
+The app is ad-hoc signed, not notarized, so macOS blocks the first launch.
+Either right-click the app → **Open** → **Open**, or run:
+
+```bash
+xattr -dr com.apple.quarantine /Applications/RFBattery.app
+```
+
+## Releasing
+
+Push a version tag; GitHub Actions builds the app and attaches the zip to a
+release:
+
+```bash
+git tag v0.1.0 && git push origin v0.1.0
+```
+
+The workflow can also be run manually from the Actions tab; the zip is then
+available as a build artifact.
+
 ## Build & run
 
 Requires macOS 13+ and the Swift toolchain (Xcode or Command Line Tools).

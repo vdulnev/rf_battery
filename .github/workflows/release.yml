@@ -1,0 +1,36 @@
+name: Build
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build universal app
+        run: |
+          if [[ "$GITHUB_REF_TYPE" == tag ]]; then
+            export VERSION="${GITHUB_REF_NAME#v}"
+          else
+            export VERSION="0.0.0-${GITHUB_SHA::7}"
+          fi
+          ZIP=1 ./build_app.sh
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: RFBattery
+          path: build/RFBattery.zip
+
+      - name: Publish release
+        if: github.ref_type == 'tag'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" build/RFBattery.zip --title "RFBattery $GITHUB_REF_NAME" --generate-notes
